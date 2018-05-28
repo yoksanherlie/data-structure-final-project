@@ -17,10 +17,10 @@ void detectKey(Player &player, Maze m) {
         player.move(2, m);
     } else if (GetAsyncKeyState(VK_LEFT)) {
         player.move(0, m);
+        x--;
     }
 }
 
-Node findRandomEnemyPos(Maze m) {
     for (int i = 10; i < 15; i++) {
         for (int j = 10; j < 15; j++) {
             if (m.isWalkable(i, j)) {
@@ -54,8 +54,4 @@ int main() {
 
         Sleep(100);
 	}
-
-	cin.ignore();
-
-	return 0;
 }
