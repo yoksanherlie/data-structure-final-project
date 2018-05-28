@@ -1,6 +1,4 @@
 #include "Maze.h"
-#include <time.h>
-#include <stdlib.h>
 
 Maze::Maze() {
 	this->size = 10;
@@ -83,3 +81,26 @@ void Maze::generateMaze() {
 	}
 }
 
+bool Maze::isWalkable(int x, int y) {
+    return this->grid[x][y] == 1;
+}
+
+bool Maze::isWalkablePlayer(int x, int y) {
+    return this->grid[x][y] == 1 || this->grid[x][y] == 2;
+}
+
+int Maze::getSize() {
+    return this->size;
+}
+
+void Maze::setVisited(int x, int y) {
+    this->grid[x][y] = 2;
+}
+
+void Maze::removeVisited() {
+    for (int i = 0; i < this->size; i++) {
+        for (int j = 0; j < this->size; j++) {
+            if (this->grid[i][j] == 2) this->grid[i][j] = 1;
+        }
+    }
+}
