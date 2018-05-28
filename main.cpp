@@ -34,6 +34,7 @@ int main() {
 	Maze m(20);
 	m.generateMaze();
 	m.printMaze();
+	clock_t t;
 
 	bool playing = true;
 	Player player(2, 1);
@@ -41,6 +42,7 @@ int main() {
 	Node enemyPos = findRandomEnemyPos(m);
 	Enemy enemy(enemyPos.x, enemyPos.y);
 
+	
 	while (playing){
         detectKey(player, m);
        	player.printMover();
@@ -50,8 +52,11 @@ int main() {
 
         if (player.getX() == enemy.getX() && player.getY() == enemy.getY()) {
             break;
+        cout<<t;
         }
-
+        
         Sleep(100);
 	}
+	t = clock();
+	cout<<"u survived with a score of = "<<t;
 }
