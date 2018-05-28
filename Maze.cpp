@@ -22,7 +22,7 @@ void Maze::initGrid() {
 void Maze::printMaze() {
 	for (int i = 0; i < this->size; i++) {
         for (int j = 0; j < this->size; j++) {
-            if (this->grid[j][i] == 0) cout << "*";
+            if (this->grid[j][i] == 0) cout << "=";
             if (this->grid[j][i] == 1) cout << " ";
         }
 		cout << endl;
