@@ -1,5 +1,6 @@
 #include "Maze.h"
 
+// Constructor of the maze
 Maze::Maze() {
 	this->size = 10;
 }
@@ -9,6 +10,9 @@ Maze::Maze(int size) {
 	this->initGrid();
 }
 
+/*
+	Initialize all the node in the grid as a wall
+*/
 void Maze::initGrid() {
     for (int i = 0; i < this->size; i++) {
         for (int j = 0; j < this->size; j++) {
@@ -17,6 +21,11 @@ void Maze::initGrid() {
     }
 }
 
+/*
+	Print the maze.
+	= is for the wall.
+	Space is for the passage
+*/
 void Maze::printMaze() {
 	for (int i = 0; i < this->size; i++) {
         for (int j = 0; j < this->size; j++) {
@@ -27,9 +36,13 @@ void Maze::printMaze() {
 	}
 }
 
+/*
+	Check if the given coordinate is in the maze
+*/
 bool Maze::inMaze(int x, int y) {
 	return x >= 0 && x <= this->size - 1 && y >= 0 && y <= this->size - 1;
 }
+
 
 void Maze::addWalls(int x, int y) {
 	Node potential[4] = {
@@ -46,7 +59,14 @@ void Maze::addWalls(int x, int y) {
 	}
 }
 
+
+/*
+	Generate the maze of the game with Randomized Prim's Algorithm
+	1 is for the passage
+	0 is for the wall
+*/
 void Maze::generateMaze() {
+	// Set the starting point
 	Node first = {2, 1};
 	this->grid[first.x][first.y] = 1;
 	this->addWalls(first.x, first.y);
@@ -66,6 +86,12 @@ void Maze::generateMaze() {
 			Node cell1 = { random.x - potential[i][0].x, random.y - potential[i][0].y };
 			Node cell2 = { random.x - potential[i][1].x, random.y - potential[i][1].y };
 
+			/*
+				Check the cell divided by the current wall.
+				If only one of the two cells divided.
+					1. Make the wall a passage and mark the unvisited cell part of the maze
+					2. Add the neighboring walls of the cell to the wall list
+			*/
 			if (this->inMaze(cell1.x, cell1.y) && inMaze(cell2.x, cell2.y)) {
 				if (this->grid[cell1.x][cell1.y] == 1 && this->grid[cell2.x][cell2.y] == 0) {
 					this->grid[random.x][random.y] = this->grid[cell2.x][cell2.y] = 1;
@@ -77,26 +103,35 @@ void Maze::generateMaze() {
 			}
 		}
 
+		// Remove the current wall from the potential wall list
 		this->walls.erase(this->walls.begin() + randomIndex);
 	}
 }
 
+/* 
+	Used in the Breadth-First-Search Algorithm
+	To check if the node in the grid is not visited and is a passage
+*/
 bool Maze::isWalkable(int x, int y) {
     return this->grid[x][y] == 1;
 }
 
+// Check if the node is available for the player to move
 bool Maze::isWalkablePlayer(int x, int y) {
     return this->grid[x][y] == 1 || this->grid[x][y] == 2;
 }
 
+// Get the size of the maze
 int Maze::getSize() {
     return this->size;
 }
 
+// Set a node in the grid to visited
 void Maze::setVisited(int x, int y) {
     this->grid[x][y] = 2;
 }
 
+// Remove all visited state in the grid
 void Maze::removeVisited() {
     for (int i = 0; i < this->size; i++) {
         for (int j = 0; j < this->size; j++) {

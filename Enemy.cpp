@@ -1,5 +1,9 @@
 #include "Enemy.h"
 
+/*
+    Add struct Walk object to the BFS array
+    if the coordniate is not visited and is a passage (walkable)
+*/
 void Enemy::addArray(int x, int y, int wc, int back, Maze &m) {
     if (m.isWalkable(x, y)) {
         m.setVisited(x, y);
@@ -12,6 +16,13 @@ void Enemy::addArray(int x, int y, int wc, int back, Maze &m) {
     }
 }
 
+/*
+    This function is to calculate the shortest path
+    between the player and the enemy position.
+    This function use Breadth-First-Search alogrithm
+    to calculate the shortest path because the cost of
+    all the nodes to the nodes adjacent to it is 1.
+*/
 void Enemy::bfs(int playerX, int playerY, Maze &m) {
     this->bfsArray.clear();
     m.removeVisited();
@@ -26,13 +37,19 @@ void Enemy::bfs(int playerX, int playerY, Maze &m) {
             while (this->bfsArray[i].walkCount != 0) {
                 target.x = this->bfsArray[i].x;
                 target.y = this->bfsArray[i].y;
-                this->walkQueue.push_back(target);
+                this->walkQueue.push_back(target); // Add node to the walk queue for the enemy to walk
 
                 i = this->bfsArray[i].back;
             }
 
             break;
         }
+
+        /*
+            Always check if the adjacent node is in the maze
+            Check for four direction (up, right, down, left)
+        */
+
 
         if (this->bfsArray[i].x + 1 < m.getSize()) {
             this->addArray( this->bfsArray[i].x+1, this->bfsArray[i].y, this->bfsArray[i].walkCount + 1, i, m);
@@ -54,6 +71,7 @@ void Enemy::bfs(int playerX, int playerY, Maze &m) {
 }
 
 void Enemy::move() {
+    // Set enemy print color to yellow
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, 14);
 
