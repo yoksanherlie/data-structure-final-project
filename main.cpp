@@ -21,8 +21,8 @@ void detectKey(Player &player, Maze m) {
 }
 
 Node findRandomEnemyPos(Maze m) {
-    for (int i = 10; i < 15; i++) {
-        for (int j = 10; j < 15; j++) {
+    for (int i = 15; i < 20; i++) {
+        for (int j = 15; j < 20; j++) {
             if (m.isWalkable(i, j)) {
                 return { i, j };
             }
@@ -42,7 +42,6 @@ int main() {
 	Node enemyPos = findRandomEnemyPos(m);
 	Enemy enemy(enemyPos.x, enemyPos.y);
 
-	
 	while (playing){
         detectKey(player, m);
        	player.printMover();
@@ -52,11 +51,13 @@ int main() {
 
         if (player.getX() == enemy.getX() && player.getY() == enemy.getY()) {
             break;
-        cout<<t;
         }
-        
+
         Sleep(100);
 	}
 	t = clock();
-	cout<<"u survived with a score of = "<<t;
+
+	gotoxy(0, 22);
+	cout << "You survived with a score of = " << t;
+	cin.ignore();
 }
